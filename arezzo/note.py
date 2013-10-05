@@ -71,10 +71,9 @@ class Note:
 
 if __name__ == "__main__":
    
-   # test unpacking of 
-   
+   # tests...
     
-   # test "hertz"
+   # test unpacking of 
    n1 = Note( 'A4', 4, 4 )
    assert( n1.letter == 'A' )
    assert( n1.octave == 4 )

@@ -13,6 +13,13 @@ class Context:
 
 
 
+leadsheet = []
+leadsheet.append( ('em', 4) )
+leadsheet.append( ('am', 4) )
+leadsheet.append( ('dm', 4) )
+leadsheet.append( ('g', 4) )
+leadsheet.append( ('c', 4) )
+
 
 
 
@@ -46,8 +53,8 @@ m2.addNote( arezzo.Note( 'A3', 1, 1 ) )
 
 
 bassStaff = arezzo.Staff( )
-bassStaff.addMeasure( m0 )
 bassStaff.addMeasure( m1 )
+bassStaff.addMeasure( m0 )
 bassStaff.addMeasure( m2 )
 
 score = arezzo.Score( )

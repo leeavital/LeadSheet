@@ -51,7 +51,7 @@ def writeMidi( musicEntity, context, timeOffset, midiFile ):
 	  return offset
 
    elif isinstance( musicEntity, arezzo.Note ): 
-	  length = ((musicEntity.time[0] * 1.0) / musicEntity.time[1])  * 4
+	  length = ((musicEntity.time[0] * 1.0) / musicEntity.time[1])  * 4 # everything is in FOUR
 	  
 	   
 	  # the magic! 
@@ -59,6 +59,11 @@ def writeMidi( musicEntity, context, timeOffset, midiFile ):
 	  midiFile.addNote( 0, 10, musicEntity.midicode(), timeOffset, length, 100 )  
 
    
+	  return timeOffset + length
+
+   elif isinstance( musicEntity, arezzo.Rest ):
+	  length = ((musicEntity.time[0] * 1.0) / musicEntity.time[1])  * 4  # everything is in FOUR
+	  
 	  return timeOffset + length
 
 	      

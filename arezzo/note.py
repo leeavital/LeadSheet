@@ -16,7 +16,13 @@ midiByLetter['B'] = 71
 class Note:
    
    def __init__( self, value, noteCount, countType ):
-	  """value: comes in as A4"""
+	  """value: comes in as A4
+		 noteCount: how many of the countType
+		 countType: what denomination of beat
+
+		 possible combinations of countType and noteCount are 1,1 (whole note)
+		 1,4 (quarter note), 1,3(half note in a triplet tuple)
+	  """
 	  self.letter, self.octave = value[0:len(value) - 1].upper(), int(value[-1])
 	  self.time = ( noteCount, countType )
 

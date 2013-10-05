@@ -52,8 +52,15 @@ class Note:
 	  # ensure between 60 and 71
 	  mid = (mid % 12) + 60
 
+
 	  c.letter = lettersByMidi[ mid ]
+
+	  # we may need to adjust new octave assignments
+	  if inter > 0 and self.midicode() > c.midicode():
+		 c.octave = c.octave + 1
+	  
 	  return c
+
 	  
 
 

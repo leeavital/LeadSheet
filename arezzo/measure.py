@@ -25,3 +25,6 @@ class Measure():
 
 	  self.voices[0].addNote( note )
 	  return self
+
+   def addVoice( self, v ):
+	  self.voices.append( v )

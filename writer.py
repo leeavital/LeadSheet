@@ -1,6 +1,5 @@
 """this module defines the write midi function"""
 
-
 import arezzo
 
 def writeMidi( musicEntity, context, timeOffset, midiFile ):
@@ -14,7 +13,11 @@ def writeMidi( musicEntity, context, timeOffset, midiFile ):
 	  for staff in musicEntity.staves:
 
 		 # program change, set the instrument
-	  	 midiFile.addProgramChange( context.track, context.track, timeOffset, staff.GMCode() ) # frettless bass  	
+	  	 if staff.instrument() == arezzo.instruments.DRUM_KIT:
+			context.track = 10
+			# TERRIBLE TERRIBLE TERRIBE, The drum track has to be added last
+		 else:
+			midiFile.addProgramChange( context.track, context.track, timeOffset, staff.GMCode() ) # frettless bass  	
 
 		 # time offset is always the same
 		 writeMidi( staff, context, timeOffset, midiFile )

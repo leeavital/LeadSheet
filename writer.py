@@ -12,15 +12,21 @@ def writeMidi( musicEntity, context, timeOffset, midiFile ):
 	  
 	  print "It was a score!"	  
 	  for staff in musicEntity.staves:
+
+		 # program change, set the instrument
+	  	 midiFile.addProgramChange( context.track, context.track, timeOffset, staff.GMCode() ) # frettless bass  	
+
 		 # time offset is always the same
 		 writeMidi( staff, context, timeOffset, midiFile )
+		 context.track = context.track  + 1
 
 	  return timeOffset
    
    elif isinstance( musicEntity, arezzo.Staff ):
 	  
 	  print "it was a Staff!"
-	 
+
+
 	  # too lazy for whatever functional bullshit I should be doing instead 
 	  offset = timeOffset
 	  for measure in musicEntity.measures:
@@ -56,7 +62,7 @@ def writeMidi( musicEntity, context, timeOffset, midiFile ):
 	   
 	  # the magic! 
 	  print "adding a note at %f beats  for %f beats  at midicode %d" % (timeOffset, length, musicEntity.midicode() )
-	  midiFile.addNote( 0, 10, musicEntity.midicode(), timeOffset, length, 100 )  
+	  midiFile.addNote( context.track, context.track, musicEntity.midicode(), timeOffset, length, 100 )  
 
    
 	  return timeOffset + length

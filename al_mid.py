@@ -70,14 +70,12 @@ def writeMidi( musicEntity, context, timeOffset, midiFile ):
 	  return offset
 
    elif isinstance( musicEntity, arezzo.Note ): 
-	  timeDen, timeNum = musicEntity.time 
-	  secondsPerBeat = (1 / (context.tempo / 60.0)) 
-	  length = ((timeDen / timeNum) * secondsPerBeat) * 4 
+	  length = ((musicEntity.time[0] * 1.0) / musicEntity.time[1])  * 4
 	  
 	   
 	  # the magic! 
-	  print "adding a note at %f for %f  seconds at %f hz" % (timeOffset, length, musicEntity.hertz() )
-	  midiFile.addNote( 0, 10, musicEntity.hertz(), timeOffset, length, 100 )  
+	  print "adding a note at %f beats  for %f beats  at midicode %d" % (timeOffset, length, musicEntity.midicode() )
+	  midiFile.addNote( 0, 10, musicEntity.midicode(), timeOffset, length, 100 )  
 
    
 	  return timeOffset + length
@@ -96,8 +94,10 @@ def writeMidi( musicEntity, context, timeOffset, midiFile ):
 TEMPO = 60
 
 m1 = arezzo.Measure()
-m1.addNote( arezzo.Note( 'E3', 1, 1 ) )
-
+m1.addNote( arezzo.Note( 'E3', 1, 4 ) )
+m1.addNote( arezzo.Note( 'E#3', 1, 4 ) )
+m1.addNote( arezzo.Note( 'G3', 1, 4 ) )
+m1.addNote( arezzo.Note( 'A3', 1, 4 ) )
 
 m2 = arezzo.Measure()
 m2.addNote( arezzo.Note( 'A3', 1, 1 ) )

@@ -1,31 +1,34 @@
 midiByLetter = {}
-midiByLetter['C'] = 261.63
-midiByLetter['C#'] = midiByLetter['Db'] = 277.18
-midiByLetter['D'] = 293.66
-midiByLetter['D#'] = midiByLetter['Eb'] =  311.13
-midiByLetter['E'] = midiByLetter['Fb'] = 329.63
-midiByLetter['E#'] = midiByLetter['F'] =   349.23
-midiByLetter['Gb'] = midiByLetter['F#'] = 369.99
-midiByLetter['G'] = 392.00
-midiByLetter['G#'] = midiByLetter['Ab'] = 415.30
-midiByLetter['A'] = 440
-midiByLetter['A#'] = midiByLetter['Bb'] =  466.16
-midiByLetter['B'] = 493.88
+midiByLetter['C'] = 60 
+midiByLetter['C#'] = midiByLetter['DB'] = 61 
+midiByLetter['D'] = 62
+midiByLetter['D#'] = midiByLetter['EB'] =  63
+midiByLetter['E'] = midiByLetter['FB'] = 64
+midiByLetter['E#'] = midiByLetter['F'] =   65
+midiByLetter['GB'] = midiByLetter['F#'] = 66
+midiByLetter['G'] = 67
+midiByLetter['G#'] = midiByLetter['AB'] = 68
+midiByLetter['A'] = 69
+midiByLetter['A#'] = midiByLetter['BB'] =  70
+midiByLetter['B'] = 71
 
 
 class Note:
    
    def __init__( self, value, noteCount, countType ):
+	  """value: comes in as A4"""
 	  self.letter, self.octave = value[0:len(value) - 1].upper(), int(value[-1])
 	  self.time = ( noteCount, countType )
 
+   # deprecated
    def hertz( self ):
-	  
+	  raise Exception("deprecated") 
 	  factor = 2 ** ( self.octave - 4 )
 	  return factor * midiByLetter[ self.letter ]
 
-	  
-	  return 440
+   def midicode( self ):
+	  r = midiByLetter[ self.letter ] + (12 * (self.octave - 4))
+	  return r
 
 
 
@@ -41,11 +44,32 @@ if __name__ == "__main__":
    n1 = Note( 'A4', 4, 4 )
    assert( n1.letter == 'A' )
    assert( n1.octave == 4 )
-   assert( n1.hertz() == 440 )
+   assert( n1.midicode() == 69 )
 
 
    n2 = Note( 'a5', 4, 4 )
    assert( n2.letter == 'A' )
    assert( n2.octave == 5 )
-   assert( n2.hertz() == 880 )
+   assert( n2.midicode() == 81 )
+
+
+   n2 = Note( 'a6', 4, 4 )
+   assert( n2.letter == 'A' )
+   assert( n2.octave == 6 )
+   assert( n2.midicode() == 93 )
+
+   
+   n2 = Note( 'c#3', 4, 4 )
+   assert( n2.letter == 'C#' )
+   assert( n2.octave == 3 )
+
+
+   n2 = Note( 'cb3', 4, 4 )
+   assert( n2.letter == 'CB' )
+   assert( n2.octave == 3 )
+
+   n2 = Note( 'c2', 4, 4 )
+   assert( n2.letter == 'C' )
+   assert( n2.octave == 2 )
+   assert( n2.midicode() == 36 )
 

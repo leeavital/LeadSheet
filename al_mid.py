@@ -7,6 +7,8 @@ from midiutil.MidiFile import MIDIFile
 
 import re
 
+import basie
+
 
 class Context:
    """holds tempo"""   
@@ -40,8 +42,8 @@ leadsheet.append( ('F#dim', 4) )
 context = Context( 120 )
 
 
-theFile = MIDIFile( 2 )
-theFile.addTrackName( 0, 0, "Sample Track" )
+theFile = MIDIFile( 16 )
+# theFile.addTrackName( 0, 0, "Sample Track" )
 theFile.addTempo( 0, 0, context.tempo )
 
 
@@ -51,42 +53,27 @@ score = arezzo.Score()
 
    
 
-# walking bass
+# go through the chords
 bassStaff = arezzo.Staff( arezzo.instruments.FRETLESS_BASS )
+drumStaff = arezzo.Staff( arezzo.instruments.DRUM_KIT )
 for chord, time in leadsheet:
    
-   measure = arezzo.Measure()
    
    match = re.match( "([a-gA-G])(#|b|B|)(m|maj|M)?", chord)
    chordcomponents = match.groups()
    root = chordcomponents[0] + chordcomponents[1]
    quality = chordcomponents[2] 
    
-   # read unqualified chords as Major
-   if quality == None: quality = "M"
-   
-
    print "chord %s with quality %s" % (root, quality ) 
    
-   rootNote = arezzo.Note( root + "2", 1, 4 )
-   measure.addNote( rootNote )
-   
-   measure.addNote( rootNote.interval( 2 ) ) # the major second
-   
-   if quality == "m" or quality == "dim":
-	  measure.addNote( rootNote.interval( 3 ) ) #the minor third
-   else:
-	  measure.addNote( rootNote.interval( 4 ) ) # the major third
-   
-   if quality == "dim":
-	  measure.addNote( rootNote.interval( 6 ) ) #diminished fifth
-   else:
-	  measure.addNote( rootNote.fifth() ) # the major lift (jk, the fifth )
-   
+   measure =  basie.randomWalkingBassPattern( root, quality )
    bassStaff.addMeasure( measure ) 
+
+   drumStaff.addMeasure( basie.simpleHats() )
 
 
 score.addStaff( bassStaff )
+score.addStaff( drumStaff )
 
      
 
@@ -94,33 +81,6 @@ score.addStaff( bassStaff )
    
 
 
-# m0 = arezzo.Measure()
-# m0.addNote( arezzo.Rest(1, 1 ) )
-# 
-# m1 = arezzo.Measure()
-# m1.addNote( arezzo.Note( 'E3', 1, 4 ) )
-# m1.addNote( arezzo.Note( 'E#3', 1, 4 ) )
-# m1.addNote( arezzo.Note( 'G3', 1, 4 ) )
-# m1.addNote( arezzo.Note( 'A3', 1, 4 ) )
-# 
-# m2 = arezzo.Measure()
-# m2.addNote( arezzo.Note( 'A3', 1, 1 ) )
-# 
-# 
-# 
-# bassStaff = arezzo.Staff( a_instruments.FRETLESS_BASS )
-# bassStaff.addMeasure( m1 )
-# bassStaff.addMeasure( m0 )
-# bassStaff.addMeasure( m2 )
-# 
-# violinStaff = arezzo.Staff( a_instruments.VIOLIN )
-# violinStaff.addMeasure( m0 )
-# violinStaff.addMeasure( m2 )
-# violinStaff.addMeasure( m1 )
-# 
-# score = arezzo.Score( )
-# score.addStaff( bassStaff )
-# score.addStaff( violinStaff )
 
 
 writeMidi( score , context, 0, theFile )

@@ -12,6 +12,12 @@ midiByLetter['A'] = 69
 midiByLetter['A#'] = midiByLetter['BB'] =  70
 midiByLetter['B'] = 71
 
+lettersByMidi = {}
+for letter, mid in midiByLetter.iteritems():
+   lettersByMidi[ mid ] = letter
+
+print lettersByMidi
+
 
 class Note:
    
@@ -35,6 +41,28 @@ class Note:
    def midicode( self ):
 	  r = midiByLetter[ self.letter ] + (12 * (self.octave - 4))
 	  return r
+   
+   
+   
+   def interval( self, inter ): 
+	  c = self.copy()
+	  mid = c.midicode()
+	  mid = mid + inter # half steps up	  
+	  
+	  # ensure between 60 and 71
+	  mid = (mid % 12) + 60
+
+	  c.letter = lettersByMidi[ mid ]
+	  return c
+	  
+
+
+   def fifth( self ):
+	  return self.interval( 7 )	  
+
+   def copy( self ):
+	  return Note( self.letter + str(self.octave), self.time[0], self.time[1])
+	   
 
 
 
@@ -78,4 +106,12 @@ if __name__ == "__main__":
    assert( n2.letter == 'C' )
    assert( n2.octave == 2 )
    assert( n2.midicode() == 36 )
+
+   n3 = n2.fifth()
+   assert( n3.letter == "G" )
+   
+   n3 = n2.interval( 6 ) # dimished fifth
+   assert( n3.letter == "GB" or n3.letter == "F#" )
+
+   
 

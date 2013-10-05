@@ -2,7 +2,7 @@ class Staff():
    
    def __init__( self, instrument ):
 	  self.measures = []
-	  self.instrument = instrument
+	  self._instrument = instrument
 
 
    def addMeasure( self, measure ):
@@ -11,10 +11,10 @@ class Staff():
    
    # yarg theses are the same
    def GMCode( self ):
-	  return self.instrument
+	  return self._instrument
 
    def instrument( self ):
-	  return self.instrument
+	  return self._instrument
 
    
    

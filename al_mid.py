@@ -17,11 +17,22 @@ class Context:
 
 
 leadsheet = []
-leadsheet.append( ('em', 4) )
+# leadsheet.append( ('em', 4) )
 leadsheet.append( ('am', 4) )
-leadsheet.append( ('dm', 4) )
+leadsheet.append( ('d', 4) )
 leadsheet.append( ('g', 4) )
 leadsheet.append( ('c', 4) )
+leadsheet.append( ('F#dim', 4) )
+leadsheet.append( ('B', 4) )
+leadsheet.append( ('em', 4) )
+leadsheet.append( ('em', 4) ) # this should actually be a rest
+leadsheet.append( ('am', 4) )
+leadsheet.append( ('d', 4) )
+leadsheet.append( ('g', 4) )
+leadsheet.append( ('c', 4) )
+leadsheet.append( ('F#dim', 4) )
+
+
 
 
 
@@ -34,7 +45,7 @@ theFile.addTrackName( 0, 0, "Sample Track" )
 theFile.addTempo( 0, 0, context.tempo )
 
 
-TEMPO = 60
+TEMPO = 120
 
 score = arezzo.Score()
 
@@ -59,9 +70,18 @@ for chord, time in leadsheet:
    
    rootNote = arezzo.Note( root + "2", 1, 4 )
    measure.addNote( rootNote )
+   
    measure.addNote( rootNote.interval( 2 ) ) # the major second
-   measure.addNote( rootNote.interval( 3 ) ) #the minor third
-   measure.addNote( rootNote.fifth() ) # the major lift (jk, the fifth )
+   
+   if quality == "m" or quality == "dim":
+	  measure.addNote( rootNote.interval( 3 ) ) #the minor third
+   else:
+	  measure.addNote( rootNote.interval( 4 ) ) # the major third
+   
+   if quality == "dim":
+	  measure.addNote( rootNote.interval( 6 ) ) #diminished fifth
+   else:
+	  measure.addNote( rootNote.fifth() ) # the major lift (jk, the fifth )
    
    bassStaff.addMeasure( measure ) 
 

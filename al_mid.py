@@ -1,5 +1,5 @@
 import arezzo
-
+import arezzo.instruments as a_instruments
 
 from writer import writeMidi
 
@@ -10,6 +10,7 @@ class Context:
    """holds tempo"""   
    def __init__( self, tempo  ):
 	  self.tempo = tempo
+	  self.track = 0
 
 
 
@@ -26,10 +27,9 @@ leadsheet.append( ('c', 4) )
 context = Context( 120 )
 
 
-theFile = MIDIFile( 1 )
+theFile = MIDIFile( 2 )
 theFile.addTrackName( 0, 0, "Sample Track" )
 theFile.addTempo( 0, 0, context.tempo )
-
 
    
     
@@ -52,14 +52,20 @@ m2 = arezzo.Measure()
 m2.addNote( arezzo.Note( 'A3', 1, 1 ) )
 
 
-bassStaff = arezzo.Staff( )
+
+bassStaff = arezzo.Staff( a_instruments.FRETLESS_BASS )
 bassStaff.addMeasure( m1 )
 bassStaff.addMeasure( m0 )
 bassStaff.addMeasure( m2 )
 
+violinStaff = arezzo.Staff( a_instruments.VIOLIN )
+violinStaff.addMeasure( m0 )
+violinStaff.addMeasure( m2 )
+violinStaff.addMeasure( m1 )
+
 score = arezzo.Score( )
 score.addStaff( bassStaff )
-
+score.addStaff( violinStaff )
 
 
 writeMidi( score , context, 0, theFile )

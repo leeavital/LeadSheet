@@ -40,9 +40,9 @@ def writeMidi( musicEntity, context, timeOffset, midiFile ):
 	  offset = timeOffset  ## janks, assumes every voice 
 						   ## takes the same amount of time
 	  for voice in musicEntity.voices:
-		 offset = writeMidi( voice, context, timeOffset, midiFile )
+		 writeMidi( voice, context, timeOffset, midiFile )
 
-	  return offset
+	  return timeOffset + 4
 
 
    elif isinstance( musicEntity, arezzo.Voice ):

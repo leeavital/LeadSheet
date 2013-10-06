@@ -4,3 +4,4 @@ from staff import Staff
 from  voice import Voice
 from note import Note
 from rest import Rest
+from toneCluster import ToneCluster

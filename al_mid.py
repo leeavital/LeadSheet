@@ -12,9 +12,6 @@ import basie
 import sys
 
 
-
-
-
 # I don't know where to put this...
 class Context:
    """holds tempo"""   
@@ -88,8 +85,6 @@ for i in range( 0, repeat ):
       chordcomponents = match.groups()
       root = chordcomponents[0] + chordcomponents[1]
       quality = chordcomponents[2] 
-      
-      print "chord %s with quality %s" % (root, quality ) 
       
       measure =  basie.randomWalkingBassPattern( root, quality )
       bassStaff.addMeasure( measure ) 

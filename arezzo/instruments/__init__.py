@@ -5,3 +5,5 @@ CELLO = 42
 
 
 DRUM_KIT = 10 # impossible number
+
+PIANO = 0

@@ -13,6 +13,8 @@ import sys
 
 import med_jazz
 
+import os
+
 
 # I don't know where to put this...
 class Context:

@@ -2,6 +2,8 @@ import arezzo
 import basie
 import re
 
+import arezzo.instruments
+
 
 
 

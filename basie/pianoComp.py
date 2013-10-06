@@ -4,12 +4,14 @@ import arezzo
 import random
 
 
+# we'll cycle through this variable
+i = 0
 
-permutation  = [3,5]
 
 def pianoComp( root , quality ):
    
-   print permutation   
+   global i
+    
    root = arezzo.Note( root + '6', 1, 1 )
    
    if quality == "dim":
@@ -37,13 +39,26 @@ def pianoComp( root , quality ):
    
    pianoAround = arezzo.Note( 'G4', 1, 1)
     
-   if n < .5:
+   if i == 0:
 	  m.addNote( arezzo.ToneCluster( [root, third, fifth], 5, 12 ).around( pianoAround)  )
    	  m.addNote( arezzo.ToneCluster( [root, third, fifth], 7, 12 ).around( pianoAround ) )
-   else:
+   elif i == 1:
 	  m.addNote( arezzo.Rest( 2, 12 ) )
    	  m.addNote( arezzo.ToneCluster( [root, third, fifth], 4, 12 ).around( pianoAround ) )
 	  m.addNote( arezzo.ToneCluster( [root, third, fifth], 2, 4 ).around( pianoAround )  )
+   
+   elif i == 2:
+	  m.addNote( arezzo.ToneCluster( [root, third, fifth], 1, 4 ).around( pianoAround)  )
+   	  m.addNote( arezzo.ToneCluster( [root, third, fifth], 1, 4 ).around( pianoAround ) )
+   	  m.addNote( arezzo.ToneCluster( [root, third, fifth], 2, 4 ).around( pianoAround ) )
+
+   else :
+	  m.addNote( arezzo.Rest( 5, 12 ) )
+   	  m.addNote( arezzo.ToneCluster( [root, third, fifth], 7, 12 ).around( pianoAround ) )
+
+   
+   # four bar phrases
+   i = (i + 1) % 4
 
    return m
 

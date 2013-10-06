@@ -10,11 +10,10 @@
 			background-color: transparent;
 			background-repeat: no-repeat;
 			
-		 }
-
+		 } 
 
 		 html{
-			background-image: url( "/static/bg.jpg" );
+			/* background-image: url( "/static/bg.jpg" ); */
 			background-color: #FCEFCF;
 			background-size: 400px 500px;
 			
@@ -84,12 +83,13 @@
 				  tempo: $('#tempo').val(),
 				  chords: $('input[name=chord]').map( function(i, e){ return e.value } ).toArray()
 			   }
+			   
 
-			   $.ajax({
-				  url: '/music',
-				  data: data,
-				  type: 'POST'
-			   });
+			   var uri = '/music?' + $.param( data )
+
+			   $('#player').empty().append( $('<audio controls/>').attr({
+				  src: uri
+			   }) );
 			});
 		 
 		 });
@@ -113,6 +113,8 @@
 	     <div id="chords">
 			<h1 class="nochordsmessage">No chords yet...put in some chords	 </h1>
 		 </div>
+
+		 <div id="player"></div>
 		 
 		 
 		 <div class="row inrow"> 

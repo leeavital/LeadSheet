@@ -70,7 +70,7 @@ def getScore( leadsheet, **args ):
    
    
    score.addStaff( bassStaff )
-   # score.addStaff( pianoStaff )
+   score.addStaff( pianoStaff )
    score.addStaff( drumStaff )
 
    return score

@@ -8,6 +8,9 @@ import json
 import flask
 
 
+import os	  
+
+
 from writer import writeMidi
 
 from midiutil.MidiFile import MIDIFile
@@ -33,14 +36,15 @@ class Context:
 class ConvertJob( Thread ):
    
    def __init__(self, id, data ):
+	  Thread.__init__(self)
 	  self.id = id
 	  self.data = data
    
    def run(self):
 	  print "running"
 	  
-	  midiname = "files/" + str(self.id) + ".mid"
-	  mp3name = "files/" + str(self.id) + ".mp3"
+	  self.midiname = "files/" + str(self.id) + ".mid"
+	  self.wavname = "files/" + str(self.id) + ".wav"
 	  context = Context( self.data["tempo"] )
 	  leadsheet = [(x, 4) for x in self.data["chords"] ] 
 	  
@@ -51,15 +55,15 @@ class ConvertJob( Thread ):
 
 	  writeMidi( score, context, 0, theFile )
 
-	  binfile = open(  midiname, "wb" )
+	  binfile = open(  self.midiname, "wb" )
 	  theFile.writeFile( binfile )
 	  binfile.close()
 
 
-	  # now turn it into an mp3
-	  # cmd = "timidity %s -D 11 -Ow -o - " % midiname # | lame - -b 64 %s" % (midiname, mp3name)
-	  import os	  
-	  os.execv( "convert.sh", ["", midiname , mp3name  ] )
+	  # now turn it into an wav
+	  subprocess.call( ["/home/lee/LeadSheet/convert.sh", self.midiname, self.wavname] )
+
+	  print "here we are..."
 
 
 
@@ -70,7 +74,7 @@ def hello_world():
 
 
 
-@app.route('/music', methods=["POST"])
+@app.route('/music', methods=["GET"])
 def music():
    
    
@@ -78,20 +82,17 @@ def music():
    print request.form.getlist( "chords[]" )
 
    data = {}
-   data["tempo"] = int(request.form["tempo"])
-   data["chords"] = [str(x) for x in request.form.getlist("chords[]") ]
+   data["tempo"] = int(request.args["tempo"])
+   data["chords"] = [str(x) for x in request.args.getlist("chords[]") ]
    
    rand = "".join([ str(int(random.random() * 10)) for x in range( 0, 20 ) ])
 
    t = ConvertJob( rand, data )
-   t.run()
+   t.run() # that was stupid..
+   # t.join()
+
    
-   return flask.jsonify( {"code": rand} )
+   return flask.send_file( t.wavname, mimetype="audio/wav" )
 
 if __name__ == '__main__':
    app.run()
-
-
-
-
-

@@ -75,9 +75,21 @@ def writeMidi( musicEntity, context, timeOffset, midiFile ):
 	  
 	  return timeOffset + length
 
+
+   elif isinstance( musicEntity, arezzo.ToneCluster ):
+	  
+	  print "IT's A TONE CLUSTER"
+	  print "me:time   " , musicEntity.time
+	  length = ((musicEntity.time[0] * 1.0) / musicEntity.time[1])  * 4 # everything is in FOUR
+	  
+	  # the other magic!
+	  for note in musicEntity.notes:
+		 midiFile.addNote( context.track, context.track, note.midicode(), timeOffset, length, 100)
+	   
+	  return timeOffset + length 	 
 	      
    else:
 	  print "OH SHIT WHAT IS IT?"
 	  return timeOffset
 
-   # yeah! recursive descent bitch!
+   # yeah! recursive descent bitch

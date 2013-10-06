@@ -11,6 +11,8 @@ import basie
 
 import sys
 
+import med_jazz
+
 
 # I don't know where to put this...
 class Context:
@@ -25,6 +27,7 @@ tempo = 120
 feel = "Med Jazz"
 infile = ""
 repeat = 1
+countoff = True
 for arg in sys.argv:
    if arg.find("tempo=") == 0:
 	  tempo = int(arg[6:])
@@ -34,6 +37,17 @@ for arg in sys.argv:
 
    elif arg.find( "repeat=") == 0:
 	  repeat = int(arg[7:])
+
+   elif arg.find( "countoff=" ) == 0:
+	  countoff = arg[10:] == "yes"
+   
+
+
+print "PARSED ARGUMENTS:"
+print "tempo: %d" % tempo
+print "infile: %s" % infile
+print "countoff %s" % countoff
+print "repeat %d" % repeat
 
 
 
@@ -51,62 +65,10 @@ theFile.addTempo( 0, 0, context.tempo )
 
 TEMPO = 120
 
-score = arezzo.Score()
 
+
+score = med_jazz.getScore( leadsheet, repeat = repeat, countoff = countoff )
    
-
-# go through the chords
-bassStaff = arezzo.Staff( arezzo.instruments.FRETLESS_BASS )
-drumStaff = arezzo.Staff( arezzo.instruments.DRUM_KIT )
-pianoStaff = arezzo.Staff( arezzo.instruments.PIANO )
-
-# add count off measure
-rMeasure = arezzo.Measure()
-rMeasure.addNote( arezzo.Rest(1,1) )
-bassStaff.addMeasure( rMeasure )
-pianoStaff.addMeasure( rMeasure )
-
-countOffMeasure = arezzo.Measure()
-countOffMeasure.addNote( arezzo.Note('F#2', 1, 4) ) # F#2 is a closed hihat
-countOffMeasure.addNote( arezzo.Note('F#2', 1, 4) )
-countOffMeasure.addNote( arezzo.Note('F#2', 1, 4) )
-countOffMeasure.addNote( arezzo.Note('F#2', 1, 4) )
-drumStaff.addMeasure( countOffMeasure )
-
-
-
-
-
-for i in range( 0, repeat ):
-   for chord, time in leadsheet:
-      
-      
-      match = re.match( "([a-gA-G])(#|b|B|)(m|maj|M)?", chord)
-      chordcomponents = match.groups()
-      root = chordcomponents[0] + chordcomponents[1]
-      quality = chordcomponents[2] 
-      
-      measure =  basie.randomWalkingBassPattern( root, quality )
-      bassStaff.addMeasure( measure ) 
-   
-   
-      measure = basie.pianoComp( root , quality )
-      pianoStaff.addMeasure( measure )
-      
-   
-   
-      drumStaff.addMeasure( basie.simpleHats() )
-
-
-score.addStaff( bassStaff )
-score.addStaff( pianoStaff )
-score.addStaff( drumStaff )
-
-     
-
-   
-   
-
 
 
 

@@ -4,12 +4,10 @@ import arezzo
 
 def writeMidi( musicEntity, context, timeOffset, midiFile ):
    
-   # print "writeMidi with %s at %f" % ( musicEntity, timeOffset )
    
       
    if isinstance( musicEntity, arezzo.Score ):
 	  
-	  print "It was a score!"	  
 	  for staff in musicEntity.staves:
 
 		 # program change, set the instrument
@@ -27,7 +25,6 @@ def writeMidi( musicEntity, context, timeOffset, midiFile ):
    
    elif isinstance( musicEntity, arezzo.Staff ):
 	  
-	  print "it was a Staff!"
 
 
 	  # too lazy for whatever functional bullshit I should be doing instead 
@@ -39,7 +36,6 @@ def writeMidi( musicEntity, context, timeOffset, midiFile ):
 
    elif isinstance( musicEntity, arezzo.Measure ):
 	  
-	  print "it's a measure"
 	  
 	  offset = timeOffset  ## janks, assumes every voice 
 						   ## takes the same amount of time
@@ -50,12 +46,10 @@ def writeMidi( musicEntity, context, timeOffset, midiFile ):
 
 
    elif isinstance( musicEntity, arezzo.Voice ):
-	  print "it's a voice"
 	  
 	  offset = timeOffset
 	  for token in musicEntity.notesAndRests:
 		 offset = writeMidi( token, context, offset, midiFile )
-		 print "wrote a token at: ", offset
 
 	  return offset
 
@@ -64,8 +58,7 @@ def writeMidi( musicEntity, context, timeOffset, midiFile ):
 	  
 	   
 	  # the magic! 
-	  print "adding a note at %f beats  for %f beats  at midicode %d" % (timeOffset, length, musicEntity.midicode() )
-	  midiFile.addNote( context.track, context.track, musicEntity.midicode(), timeOffset, length, 100 )  
+	  midiFile.addNote( context.track, context.track, musicEntity.midicode(), timeOffset, length, musicEntity.dynamic)  
 
    
 	  return timeOffset + length
@@ -78,13 +71,11 @@ def writeMidi( musicEntity, context, timeOffset, midiFile ):
 
    elif isinstance( musicEntity, arezzo.ToneCluster ):
 	  
-	  print "IT's A TONE CLUSTER"
-	  print "me:time   " , musicEntity.time
 	  length = ((musicEntity.time[0] * 1.0) / musicEntity.time[1])  * 4 # everything is in FOUR
 	  
 	  # the other magic!
 	  for note in musicEntity.notes:
-		 midiFile.addNote( context.track, context.track, note.midicode(), timeOffset, length, 100)
+		 midiFile.addNote( context.track, context.track, note.midicode(), timeOffset, length, note.dynamic)
 	   
 	  return timeOffset + length 	 
 	      

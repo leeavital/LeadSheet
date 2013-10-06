@@ -45,7 +45,7 @@ def oneTwoThreeFive(basenote, quality ):
 	  fifth = root.interval( 7 )
 
    m = one235Pattern()
-   m.addNote(  root )
+   m.addNote(  root.louder(  ) )
    m.addNote(  second )
    m.addNote(  third )
    m.addNote(  fifth )
@@ -65,7 +65,7 @@ def oneOneFiveFive(basenote, quality ):
 	  fifth = root.interval( 7 )
 
    m = one155Pattern()
-   m.addNote(  root )
+   m.addNote(  root.louder() )
    m.addNote(  root )
    m.addNote(  fifth )
    m.addNote(  fifth )
@@ -86,7 +86,7 @@ def fiveFiveOneOne(basenote, quality ):
 
    m = five5OneOnePattern()
 
-   m.addNote(  fifth )
+   m.addNote(  fifth.louder() )
    m.addNote(  fifth )
    m.addNote(  root )
    m.addNote(  root )

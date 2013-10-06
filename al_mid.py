@@ -9,7 +9,13 @@ import re
 
 import basie
 
+import sys
 
+
+
+
+
+# I don't know where to put this...
 class Context:
    """holds tempo"""   
    def __init__( self, tempo  ):
@@ -18,29 +24,28 @@ class Context:
 
 
 
+tempo = 120
+feel = "Med Jazz"
+infile = ""
+repeat = 1
+for arg in sys.argv:
+   if arg.find("tempo=") == 0:
+	  tempo = int(arg[6:])
+
+   elif arg.find( "infile=" ) == 0:
+	  infile = arg[7:]
+
+   elif arg.find( "repeat=") == 0:
+	  repeat = int(arg[7:])
+
+
+
+# build the leadsheet
 leadsheet = []
-# leadsheet.append( ('em', 4) )
-leadsheet.append( ('am', 4) )
-leadsheet.append( ('d', 4) )
-leadsheet.append( ('g', 4) )
-leadsheet.append( ('c', 4) )
-leadsheet.append( ('F#dim', 4) )
-leadsheet.append( ('B', 4) )
-leadsheet.append( ('em', 4) )
-leadsheet.append( ('em', 4) ) # this should actually be a rest
-leadsheet.append( ('am', 4) )
-leadsheet.append( ('d', 4) )
-leadsheet.append( ('g', 4) )
-leadsheet.append( ('c', 4) )
-leadsheet.append( ('F#dim', 4) )
+for l in open( infile ):
+   leadsheet.append( (l, 4 ) )
 
-
-
-
-
-
-context = Context( 200 )
-
+context = Context( tempo )
 
 theFile = MIDIFile( 16 )
 # theFile.addTrackName( 0, 0, "Sample Track" )
@@ -73,26 +78,29 @@ drumStaff.addMeasure( countOffMeasure )
 
 
 
-for chord, time in leadsheet:
-   
-   
-   match = re.match( "([a-gA-G])(#|b|B|)(m|maj|M)?", chord)
-   chordcomponents = match.groups()
-   root = chordcomponents[0] + chordcomponents[1]
-   quality = chordcomponents[2] 
-   
-   print "chord %s with quality %s" % (root, quality ) 
-   
-   measure =  basie.randomWalkingBassPattern( root, quality )
-   bassStaff.addMeasure( measure ) 
 
 
-   measure = basie.pianoComp( root , quality )
-   pianoStaff.addMeasure( measure )
+for i in range( 0, repeat ):
+   for chord, time in leadsheet:
+      
+      
+      match = re.match( "([a-gA-G])(#|b|B|)(m|maj|M)?", chord)
+      chordcomponents = match.groups()
+      root = chordcomponents[0] + chordcomponents[1]
+      quality = chordcomponents[2] 
+      
+      print "chord %s with quality %s" % (root, quality ) 
+      
+      measure =  basie.randomWalkingBassPattern( root, quality )
+      bassStaff.addMeasure( measure ) 
    
-
-
-   drumStaff.addMeasure( basie.simpleHats() )
+   
+      measure = basie.pianoComp( root , quality )
+      pianoStaff.addMeasure( measure )
+      
+   
+   
+      drumStaff.addMeasure( basie.simpleHats() )
 
 
 score.addStaff( bassStaff )

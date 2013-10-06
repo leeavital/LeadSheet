@@ -16,12 +16,11 @@ lettersByMidi = {}
 for letter, mid in midiByLetter.iteritems():
    lettersByMidi[ mid ] = letter
 
-print lettersByMidi
 
 
 class Note:
    
-   def __init__( self, value, noteCount, countType ):
+   def __init__( self, value, noteCount, countType, **args ):
 	  """value: comes in as A4
 		 noteCount: how many of the countType
 		 countType: what denomination of beat
@@ -31,6 +30,11 @@ class Note:
 	  """
 	  self.letter, self.octave = value[0:len(value) - 1].upper(), int(value[-1])
 	  self.time = ( noteCount, countType )
+
+	  if "dynamic" in args:
+		 self.dynamic = args["dynamic"]
+	  else:
+		 self.dynamic = 100
 
    # deprecated
    def hertz( self ):
@@ -71,7 +75,21 @@ class Note:
 	  return Note( self.letter + str(self.octave), self.time[0], self.time[1])
 	   
 
+   def eightVB( self ):
+	  c = self.copy()
+	  c.octave = c.octave - 1
+	  return c
 
+   def eightVA( self ):
+	  c = self.copy()
+	  c.octave = c.octave + 1
+	  return c
+
+   def louder( self, howmuch = 30 ):
+	  return self
+	  c = self.copy()
+	  c.dynamic = c.dynamic + howmuch
+	  return c
 
 
 

@@ -39,7 +39,7 @@ leadsheet.append( ('F#dim', 4) )
 
 
 
-context = Context( 120 )
+context = Context( 200 )
 
 
 theFile = MIDIFile( 16 )
@@ -56,6 +56,23 @@ score = arezzo.Score()
 # go through the chords
 bassStaff = arezzo.Staff( arezzo.instruments.FRETLESS_BASS )
 drumStaff = arezzo.Staff( arezzo.instruments.DRUM_KIT )
+pianoStaff = arezzo.Staff( arezzo.instruments.PIANO )
+
+# add count off measure
+rMeasure = arezzo.Measure()
+rMeasure.addNote( arezzo.Rest(1,1) )
+bassStaff.addMeasure( rMeasure )
+pianoStaff.addMeasure( rMeasure )
+
+countOffMeasure = arezzo.Measure()
+countOffMeasure.addNote( arezzo.Note('F#2', 1, 4) ) # F#2 is a closed hihat
+countOffMeasure.addNote( arezzo.Note('F#2', 1, 4) )
+countOffMeasure.addNote( arezzo.Note('F#2', 1, 4) )
+countOffMeasure.addNote( arezzo.Note('F#2', 1, 4) )
+drumStaff.addMeasure( countOffMeasure )
+
+
+
 for chord, time in leadsheet:
    
    
@@ -69,10 +86,17 @@ for chord, time in leadsheet:
    measure =  basie.randomWalkingBassPattern( root, quality )
    bassStaff.addMeasure( measure ) 
 
+
+   measure = basie.pianoComp( root , quality )
+   pianoStaff.addMeasure( measure )
+   
+
+
    drumStaff.addMeasure( basie.simpleHats() )
 
 
 score.addStaff( bassStaff )
+score.addStaff( pianoStaff )
 score.addStaff( drumStaff )
 
      

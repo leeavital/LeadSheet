@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html ng-app="LeadSheetApp">
+   <head>
+	  <script type="text/javascript" src="/static/jquery.js"></script>
+	  <link type="text/css" rel="stylesheet" href="/static/bootstrap.css" />
+      <script type="text/javascript" src="static/angular.js"></script>
+      <script type="text/javascript" src="static/app.js"></script>
+  </head>
+   <body class="container"  ng-controller="LeadSheetController">
+      
+      <h1>LeadSheet</h1>
+      <h4>By Lee Avital</h4> 
+      
+      <div class="alert alert-info" ng-if="chords.length == 0" >
+         No chords yet, put in some chords
+      </div>
+      <ul style="list-style-type: none; padding: 0px">
+         <li ng-repeat="chord in chords track by $index " style="margin: 10px 0px">
+            <b>{{chord}}</b>
+            <div class="btn btn-warning" ng-click="removeChord($index)" >remove</div>
+         </li>
+      </ul>
+
+      
+      
+         <input  ng-model="musicInfo.tempo"  />  bpm &nbsp; &nbsp;
+         <span ng-click="generateMusic()"  class="btn btn-primary" style="margin: 10px 0px">
+            Get MP3
+         </span>
+
+      <audio controls ng-if="musicUrl" style="display: block; margin: 10px 0px" >
+         <source src="{{musicUrl}}" type="audio/wav" />
+      </audio>
+
+      
+      <chord-selector chord-adder="addChord" style="margin: 10px 0px" ></chord-selector>
+
+   </body>
+</html>

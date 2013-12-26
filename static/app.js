@@ -5,15 +5,15 @@ app.controller( 'LeadSheetController', [
       '$scope', '$http',
       function( $scope, $http  ) {
          
-         var chords = $scope.chords = [];
-         
+         $scope.chords = [];
+         $scope.musicInfo = {tempo: '120'};
 
          $scope.addChord = function( chord ){
             $scope.chords.push( chord );
          }
 
          $scope.generateMusic = function(){
-            var url =  '/music?' +  $.param({chords: chords, tempo: 120});
+            var url =  '/music?' +  $.param({chords: $scope.chords, tempo: $scope.musicInfo.tempo });
             $scope.musicUrl = url;
          }
 
@@ -24,4 +24,16 @@ app.controller( 'LeadSheetController', [
 
       }]
 );
+
+
+app.directive( 'chordSelector', [ function(){
+   return {
+      scope: {
+         chordAdder: '='
+      },
+      templateUrl: '/static/partials/chord-selector.html',
+      restrict: 'E'
+   }      
+
+}]);
 

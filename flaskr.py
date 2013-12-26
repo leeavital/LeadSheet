@@ -70,7 +70,7 @@ class ConvertJob( Thread ):
 
 @app.route('/')
 def hello_world():
-   return render_template( 'index.html' )
+   return flask.send_file( "./static/index.html", mimetype="text/html" )
 
 
 

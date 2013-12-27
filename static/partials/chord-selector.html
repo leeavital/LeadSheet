@@ -1,0 +1,29 @@
+<form class="form" ng-submit="chordAdder( letterSelect + qualitySelect)">
+<input class="btn btn-primary" type="submit"  value="add" />
+<select class="input-sm" ng-model="letterSelect">
+   <option selected>C</option>
+   <option>C#</option>
+   <option>Db</option>
+   <option>D</option>
+   <option>D#</option>
+   <option>Eb</option>
+   <option>E</option>
+   <option>F</option>
+   <option>F#</option>
+   <option>Gb</option>
+   <option>G</option>
+   <option>G#</option>
+   <option>Ab</option>
+   <option>A</option>
+   <option>A#</option>
+   <option>Bb</option>
+   <option>B</option>
+</select>
+<select class="input-sm" ng-model="qualitySelect">
+   <option value="M">Major</option>
+   <option value="m">Minor</option>
+   <option value="dim">Diminished</option>
+   <option value="aug">Augmented</option>
+</select>
+
+</form>

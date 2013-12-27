@@ -20,7 +20,8 @@ import subprocess
 
 app = Flask(__name__)
 
-app.config['TESTING'] = True 
+app.config['TESTING'] = False
+app.config['PORT'] = 80
 
 
 
@@ -61,7 +62,7 @@ class ConvertJob( Thread ):
 
 
 	  # now turn it into an wav
-	  subprocess.call( ["/home/lee/LeadSheet/convert.sh", self.midiname, self.wavname] )
+	  subprocess.call( ["./convert.sh", self.midiname, self.wavname] )
 
 	  print "here we are..."
 
@@ -95,4 +96,4 @@ def music():
    return flask.send_file( t.wavname, mimetype="audio/wav" )
 
 if __name__ == '__main__':
-   app.run()
+   app.run( port=80, host="0.0.0.0" )

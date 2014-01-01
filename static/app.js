@@ -73,7 +73,9 @@ bootstrapAudio.directive( 'musicPlayer', [  function( ){
                }).attr( 'disabled', false );
 
                $elm.find( '.stop-btn' ).click( function(){
+                  
                   audio.pause();
+                  audio.load();
                   audio.currentTime = 0;
                }).attr( 'disabled', false );
 
@@ -84,8 +86,12 @@ bootstrapAudio.directive( 'musicPlayer', [  function( ){
             );
 
             chkTimeInterval = setInterval( function(){
+               
                scope.currentTime = audio.currentTime
-               scope.$digest();
+               if( scope.currentTime == Infinity ){
+                  scope.currentTime = 0;
+               }
+               scope.$digest(); 
             }, 1000 );
 
 

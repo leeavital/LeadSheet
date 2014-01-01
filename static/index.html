@@ -5,6 +5,7 @@
 	  <link type="text/css" rel="stylesheet" href="/static/bootstrap.css" />
       <script type="text/javascript" src="static/angular.js"></script>
       <script type="text/javascript" src="static/app.js"></script>
+      <script type="text/javascript" src="static/music_player.js"></script>
   </head>
    <body class="container"  ng-controller="LeadSheetController">
       
@@ -27,13 +28,19 @@
          <span ng-click="generateMusic()"  class="btn btn-primary" style="margin: 10px 0px">
             Get MP3
          </span>
-
-      <audio controls ng-if="musicUrl" style="display: block; margin: 10px 0px" >
-         <source src="{{musicUrl}}" type="audio/wav" />
-      </audio>
-
       
-      <chord-selector chord-adder="addChord" style="margin: 10px 0px" ></chord-selector>
+
+
+
+      <!--<audio controls ng-if="musicUrl" style="display: block; margin: 10px 0px" >
+         <source src="{{musicUrl}}" type="audio/wav" />
+         </audio>-->
+      
+         <chord-selector chord-adder="addChord" style="margin: 10px 0px" ></chord-selector>
+
+         <br />
+
+         <music-player src="musicUrl"></music-player>
 
    </body>
 </html>

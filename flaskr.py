@@ -74,6 +74,12 @@ def hello_world():
    return flask.send_file( "./static/index.html", mimetype="text/html" )
 
 
+@app.route( '/fonts/<path>' )
+def serve_fonts(  path  ):
+   print "serving " + path
+   return flask.send_file( "./static/fonts/" + str(path) )
+
+
 
 @app.route('/music', methods=["GET"])
 def music():

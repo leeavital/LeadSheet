@@ -1,5 +1,4 @@
 class Rest:
-   
-   def __init__( self, noteCount, countType ):
-	  self.time = (noteCount, countType )
 
+  def __init__(self, noteCount, countType):
+    self.time = (noteCount, countType)

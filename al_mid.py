@@ -18,11 +18,12 @@ import os
 
 # I don't know where to put this...
 class Context:
-   """holds tempo"""   
-   def __init__( self, tempo  ):
-	  self.tempo = tempo
-	  self.track = 0
 
+  """holds tempo"""
+
+  def __init__(self, tempo):
+    self.tempo = tempo
+    self.track = 0
 
 
 tempo = 120
@@ -31,18 +32,17 @@ infile = ""
 repeat = 1
 countoff = True
 for arg in sys.argv:
-   if arg.find("tempo=") == 0:
-	  tempo = int(arg[6:])
+  if arg.find("tempo=") == 0:
+    tempo = int(arg[6:])
 
-   elif arg.find( "infile=" ) == 0:
-	  infile = arg[7:]
+  elif arg.find("infile=") == 0:
+    infile = arg[7:]
 
-   elif arg.find( "repeat=") == 0:
-	  repeat = int(arg[7:])
+  elif arg.find("repeat=") == 0:
+    repeat = int(arg[7:])
 
-   elif arg.find( "countoff=" ) == 0:
-	  countoff = arg[10:] == "yes"
-   
+  elif arg.find("countoff=") == 0:
+    countoff = arg[10:] == "yes"
 
 
 print "PARSED ARGUMENTS:"
@@ -52,30 +52,26 @@ print "countoff %s" % countoff
 print "repeat %d" % repeat
 
 
-
 # build the leadsheet
 leadsheet = []
-for l in open( infile ):
-   leadsheet.append( (l, 4 ) )
+for l in open(infile):
+  leadsheet.append((l, 4))
 
-context = Context( tempo )
+context = Context(tempo)
 
-theFile = MIDIFile( 16 )
+theFile = MIDIFile(16)
 # theFile.addTrackName( 0, 0, "Sample Track" )
-theFile.addTempo( 0, 0, context.tempo )
+theFile.addTempo(0, 0, context.tempo)
 
 
 TEMPO = 120
 
 
-
-score = med_jazz.getScore( leadsheet, repeat = repeat, countoff = countoff )
-   
+score = med_jazz.getScore(leadsheet, repeat=repeat, countoff=countoff)
 
 
-
-writeMidi( score , context, 0, theFile )
+writeMidi(score, context, 0, theFile)
 
 binfile = open("output.mid", "wb")
-theFile.writeFile( binfile )
+theFile.writeFile(binfile)
 binfile.close()

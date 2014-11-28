@@ -1,18 +1,14 @@
 class Voice():
-	  
 
-   def __init__( self ):
-	  self.notesAndRests = []
+  def __init__(self):
+    self.notesAndRests = []
 
+  def addNote(self, note):
+    self.notesAndRests.append(note)
+    return self
 
-   def addNote( self, note ):
-	  self.notesAndRests.append( note )  
-	  return self
+  def addRest(self, rest):
+    self.notesAndRests.append(rest)
 
-
-   def addRest( self, rest ):
-	  self.notesAndRests.append( rest )
-
-   def addChord( self, chord ):
-	  self.notesAndRests.append( chord ) 
-   
+  def addChord(self, chord):
+    self.notesAndRests.append(chord)

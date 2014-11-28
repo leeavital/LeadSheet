@@ -2,9 +2,9 @@ var app = angular.module( 'LeadSheetApp', ['boostrapAudio'] );
 
 
 app.controller( 'LeadSheetController', [
-      '$scope', '$http', 
+      '$scope', '$http',
       function( $scope, $http  ) {
-         
+
          $scope.chords = [];
          $scope.musicInfo = {tempo: '120'};
 
@@ -20,7 +20,7 @@ app.controller( 'LeadSheetController', [
          $scope.removeChord = function( i ){
             $scope.chords.splice( i, 1 );
          }
-      
+
 
       }]
 );
@@ -33,7 +33,7 @@ app.directive( 'chordSelector', [ function(){
       },
       templateUrl: '/static/partials/chord-selector.html',
       restrict: 'E'
-   }      
+   }
 
 }]);
 
@@ -44,7 +44,7 @@ var bootstrapAudio = angular.module('boostrapAudio', []);
 
 bootstrapAudio.directive( 'musicPlayer', [  function( ){
 
-   
+
    var audio = null;
    var chkTimeInterval = null;
 
@@ -53,53 +53,53 @@ bootstrapAudio.directive( 'musicPlayer', [  function( ){
       scope: {src: '='},
       restrict: 'E',
       link: function( scope, $elm, attrs ){
-         
-         scope.currentTime = 0;         
+
+         scope.currentTime = 0;
 
          scope.$watch( 'src', function(){
             var newSrc = scope.src;
             console.log( scope );
 
             $elm.find( 'button' ).attr('disabled', true );
-            
+
             audio = new Audio( newSrc );
             audio.preload = true;
             audio.autoplay = false; // just in case
 
             audio.addEventListener( 'canplaythrough', function(){
-               
+
                $elm.find( '.play-btn' ).click( function(){
                   audio.play();
                }).attr( 'disabled', false );
 
                $elm.find( '.stop-btn' ).click( function(){
-                  
+
                   audio.pause();
                   audio.load();
                   audio.currentTime = 0;
                }).attr( 'disabled', false );
 
             });
-            
-            $elm.find( '.hidden' ).empty().append( 
-               audio   
+
+            $elm.find( '.hidden' ).empty().append(
+               audio
             );
 
             chkTimeInterval = setInterval( function(){
-               
+
                scope.currentTime = audio.currentTime
                if( scope.currentTime == Infinity ){
                   scope.currentTime = 0;
                }
-               scope.$digest(); 
+               scope.$digest();
             }, 1000 );
 
 
-         
-         }); 
-      
-      
-      
+
+         });
+
+
+
       }
 
    }

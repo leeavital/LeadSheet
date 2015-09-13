@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-
-autopep8 --in-place --indent-size=2  *.py arezzo/*.py basie/*.py
+set -x
+autopep8 --in-place --indent-size=2  src/**/*.py

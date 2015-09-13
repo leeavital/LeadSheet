@@ -1,21 +1,13 @@
 from flask import Flask, render_template
-import random
-
-from threading import Thread
-
 from flask import request
-import json
-import flask
-
-
-import os
-
-
-from writer import writeMidi
-
 from midiutil.MidiFile import MIDIFile
+from threading import Thread
+from writer import writeMidi
+import flask
+import json
 import med_jazz
-
+import os
+import random
 import subprocess
 
 app = Flask(__name__)
@@ -96,4 +88,5 @@ def music():
   return flask.send_file(t.wavname, mimetype="audio/wav")
 
 if __name__ == '__main__':
+  print "starting"
   app.run(host="0.0.0.0")
